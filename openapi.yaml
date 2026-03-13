@@ -1,0 +1,64 @@
+openapi: 3.0.3
+info:
+  title: Erbjudande API
+  version: 1.0.0
+  description: API för att hantera erbjudanden.
+
+paths:
+  /erbjudande/{erbjudandeId}:
+    get:
+      tags: [ ErbjudandeController ]
+      operationId: getErbjudande
+      summary: Hämtar ett erbjudande
+      description: Hämtar ett erbjudande baserat på dess unika ID
+      parameters:
+        - name: erbjudandeId
+          in: path
+          required: true
+          description: Erbjudandets unika ID
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Erbjudande hittat
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetErbjudandeResponse'
+        '404':
+          description: Erbjudande hittades inte
+
+components:
+  schemas:
+    Erbjudande:
+      type: object
+      description: Erbjudande
+      properties:
+        id:
+          type: string
+          description: Erbjudandets ID
+          format: uuid
+        version:
+          type: string
+          description: Erbjudandets version
+        namn:
+          type: string
+          description: Erbjudandets namn
+        produktId:
+          type: string
+          description: Produktens id
+          format: uuid
+      required:
+        - id
+        - version
+        - namn
+        - produktId
+
+    GetErbjudandeResponse:
+      type: object
+      properties:
+        erbjudande:
+          $ref: '#/components/schemas/Erbjudande'
+      required:
+        - erbjudande
